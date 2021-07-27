@@ -27,18 +27,31 @@ function iniciarApp(){
 
 function validarFormulario(e){
     if(e.target.value.length > 0){
-        console.log("si hay algo");
+        e.target.classList.remove("border", "border-red-500");
+        e.target.classList.add("border", "border-green-500");
     }
     else{
-        e.target.classList.add("border", "border-red-500") //clases de tailwind
+        e.target.classList.add("border", "border-red-500"); //clases de tailwind
 
-        mostrarError();
+        mostrarError("Todos los campos son obligatorios");
+    }
+    if(e.target.type === "email"){
+        const er = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+        if(er.test(e.target.value)){
+            mostrarError("Email valido");
+        }else{
+            e.target.classList.add("border", "border-red-500") //clases de tailwind
+
+            mostrarError("Email no valido");
+        }
     }
 }
 
-function mostrarError(){
+//Muestra un error de "Todos los campos son obligatorios"
+function mostrarError(mensaje){
     const mensajeError = document.createElement("p");
-    mensajeError.textContent = "Todos los campos son obligatorios";
+    mensajeError.textContent = mensaje;
     mensajeError.classList.add("border", "border-red-500", "background-red-100", "text-red-500",
      "p-3", "mt-5", "text-center", "error");
 
@@ -47,5 +60,4 @@ function mostrarError(){
         formulario.appendChild(mensajeError);
      }
 
-   
 }
